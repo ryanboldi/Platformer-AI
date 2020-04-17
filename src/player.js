@@ -46,8 +46,6 @@ class Player {
             strokeWeight(0.7);
             noFill();
             //we want him to smile more based on how good his fitness is!
-            // if fitness = 0 -> we want him to be the saddest -0.3, the sadder, the closer to 0, but never closer than -0.3 
-            //and if fitness = 1000 we want it to be 0.3, and the less fitness, the higher the value
             let happiness = 0;
             //proportional fitness
             let prop = this.fitness / best_fitness;
@@ -58,8 +56,7 @@ class Player {
                 //happy 0.3 --> 1
                 happiness = map(prop, 0.5, 1, 1, 0.3);
             }
-
-            curve(this.pos.x + this.r, this.pos.y - (this.r / 2), this.pos.x + this.r, this.pos.y - (this.r / 1.5), this.pos.x, this.pos.y - (this.r / 1.7), this.pos.x, this.pos.y - (this.r / happiness));
+            curve(this.pos.x + this.r, this.pos.y - (this.r / 2), this.pos.x + this.r, this.pos.y - (this.r / 1.5), this.pos.x, this.pos.y - (this.r / 1.3), this.pos.x, this.pos.y - (this.r / happiness));
         }
     }
 
