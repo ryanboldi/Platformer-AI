@@ -65,23 +65,29 @@ class Player {
 
     //updates the physics of this player, checking for collisions, and checking for death
     Update() {
-        console.log(this.vel);
         if (this.dead == false) {
             //apply movement to player
             this.pos.y += this.vel.y
 
+            console.log(this.vel);
+            console.log(this.pos);
+
+            let onFloor = false;
             //check collisions with ground//
-            if (collideRectRect(this.pos.x - this.r, this.pos.y - (2 * this.r), this.r * 2, this.r * 4, 0, HEIGHT - 100, WIDTH, 100)) {
-                //fix some of the glitchiness with collisions
-                this.pos.y = (HEIGHT - 100) - (this.r * 2);
-                this.vel.y = 0;
-                //colliding with floor
-                this.onFloor = true;
-            } else {
-                this.onFloor = false;
-                //apply gravity
-                this.vel.y += gravity;
+            for (let i = 0; i < grounds.length; i++) {
+                if (collideRectRect(this.pos.x - this.r, this.pos.y - (2 * this.r), this.r * 2, this.r * 4, grounds[i].pos.x, grounds[i].pos.y, grounds[i].width, groundHeight)) {
+                    //fix some of the glitchiness with collisions
+                    this.pos.y = (grounds[i].pos.y) - (this.r * 2);
+                    this.vel.y = 0;
+                    //colliding with floor
+                    onFloor = true;
+                    this.onFloor = true;
+                } else {
+                    //apply gravity
+                    this.vel.y += gravity;
+                }
             }
+            if (onFloor == false) this.onFloor = false; //checks that it isnt touching any floors
         }
     }
 
