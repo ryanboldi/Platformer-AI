@@ -4,9 +4,12 @@ class Player {
         this.vel = createVector(0, 0)// WE ONLY CARE ABOUT Y VELOCITY AS PLAYER WON'T BE MOVING ON X.
 
         this.r = player_r;
+        //HITBOX will be a rectangle of height 4*r, and length 2*r
 
         this.fitness = 0;
         this.dead = false;
+
+        this.onFloor = false;
 
         if (genome) {
             this.brain = genome;
@@ -62,15 +65,34 @@ class Player {
 
     //updates the physics of this player, checking for collisions, and checking for death
     Update() {
+        console.log(this.vel);
         if (this.dead == false) {
+            //apply movement to player
+            this.pos.y += this.vel.y
 
+            //check collisions with ground//
+            if (collideRectRect(this.pos.x - this.r, this.pos.y - (2 * this.r), this.r * 2, this.r * 4, 0, HEIGHT - 100, WIDTH, 100)) {
+                //fix some of the glitchiness with collisions
+                this.pos.y = (HEIGHT - 100) - (this.r * 2);
+                this.vel.y = 0;
+                //colliding with floor
+                this.onFloor = true;
+            } else {
+                this.onFloor = false;
+                //apply gravity
+                this.vel.y += gravity;
+            }
         }
     }
 
     //compute the genomes move, and make that move (jump or no jump) based on inputs
     Move() {
         if (this.dead == false) {
-
+            if (this.onFloor) {
+                if (keyIsPressed && keyCode == UP_ARROW) {
+                    this.vel.y -= jumpStrength;
+                }
+            }
         }
     }
 }
