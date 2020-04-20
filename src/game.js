@@ -12,6 +12,11 @@ const jumpStrength = 40;
 //ground settings
 const groundSpeed = 10; //(x speed);
 const groundHeight = 20; //how tall each platform should be
+const groundGapX = 100; //MAX X GAP BETWEEN PLATFORMS
+const groundGapY = 100; //MAX VERTICAL GAP BETWEEN PLATFORMS
+const groundWidthMin = 50;
+const groundWidthMax = 200;
+
 
 let p;
 
@@ -28,16 +33,9 @@ function setup() {
     p = new Player();
 
 
-    let x = 0;
-    let lasty = 600;//start block
-    let y = lasty;
-    for (let i = 0; i < 5; i++) {
-        grounds.push(new Ground(x, y, 600));
-        y = random(lasty - 200, lasty + 200);
-        if (y < 100) y = random(lasty, lasty + 200);
-        if (y > HEIGHT - 100) y = random(lasty, lasty - 200);
-        lasty = y;
-        x += WIDTH;
+    grounds.push(new Ground(0, 600, WIDTH * 2));//START PLATFORM
+    for (let i = 0; i < 10; i++) {
+        createGround(); //we want about 10 grounds as a start
     }
 }
 
@@ -50,7 +48,8 @@ function draw() {
     grounds.forEach(g => {
         g.Show();
         g.Update();
-    })
+    });
+    checkGround();
 
     noStroke();
 }
@@ -60,5 +59,26 @@ function keyPressed() {
         if (p.onFloor) {
             p.vel.y -= jumpStrength;
         }
+    }
+}
+
+//makes a new ground and appends it to the end of the ground array
+function createGround() {
+    //get x value of the last ground, add width of the ground + jump gap.
+    let last_x = (grounds[grounds.length - 1].pos.x) + grounds[grounds.length - 1].width;
+    let new_x = last_x + groundGapX;
+    let last_y = (grounds[grounds.length - 1].pos.y);
+    let y = random(last_y - groundGapY, last_y + groundGapY);
+    if (y < 100) y = random(last_y, last_y + groundGapY);
+    if (y > HEIGHT - 100) y = random(last_y, last_y - groundGapY);
+
+    grounds.push(new Ground(new_x, y, random(groundWidthMin, groundWidthMax)));
+}
+
+function checkGround() {
+    //check if first ground is completely off the page, if so, add new ground and delete this one
+    if ((grounds[0].pos.x + grounds[0].width) < 0) {
+        createGround();
+        grounds.splice(0, 1);
     }
 }

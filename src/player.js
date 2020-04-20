@@ -69,8 +69,8 @@ class Player {
             //apply movement to player
             this.pos.y += this.vel.y
 
-            console.log(this.vel);
-            console.log(this.pos);
+            //console.log(this.vel);
+            //console.log(this.pos);
 
             let onFloor = false;
             //check collisions with ground//
