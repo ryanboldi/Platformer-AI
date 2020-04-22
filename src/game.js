@@ -6,14 +6,14 @@ const player_x = 50;
 const player_y = HEIGHT - 400;
 const player_r = 20;
 
-const jumpStrength = 40;
+const jumpStrength = 70;
 
 
 //ground settings
 const groundSpeed = 10; //(x speed);
-const groundHeight = 20; //how tall each platform should be
+const groundHeight = 50; //how tall each platform should be
 const groundGapX = 100; //MAX X GAP BETWEEN PLATFORMS
-const groundGapY = 100; //MAX VERTICAL GAP BETWEEN PLATFORMS
+const groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
 const groundWidthMin = 50;
 const groundWidthMax = 200;
 
