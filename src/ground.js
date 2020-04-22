@@ -13,7 +13,7 @@ class Ground {
     }
 
     Show() {
-        if (this.isNext) fill(90, 100, 0);
+        if (this.isNext) fill(0, 30, 150);
         else fill(50, 155, 0);//ground
         stroke(0);
         strokeWeight(1);
