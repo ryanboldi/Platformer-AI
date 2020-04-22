@@ -12,11 +12,12 @@ const jumpStrength = 70;
 //ground settings
 const groundSpeed = 10; //(x speed);
 const groundHeight = 50; //how tall each platform should be
-const groundGapX = 100; //MAX X GAP BETWEEN PLATFORMS
-const groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
-const groundWidthMin = 50;
-const groundWidthMax = 200;
+const groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
+const groundGapY = 400; //MAX VERTICAL GAP BETWEEN PLATFORMS
+const groundWidthMin = 200;
+const groundWidthMax = 500;
 
+let nextGround; //STORES THE NEXT GROUND THAT THE PLAYER WILL BE ON
 
 let p;
 
@@ -32,8 +33,8 @@ function setup() {
 
     p = new Player();
 
-
-    grounds.push(new Ground(0, 600, WIDTH * 2));//START PLATFORM
+    let nextGround = new Ground(0, 600, WIDTH * 2)
+    grounds.push(nextGround);//START PLATFORM
     for (let i = 0; i < 10; i++) {
         createGround(); //we want about 10 grounds as a start
     }
@@ -80,5 +81,14 @@ function checkGround() {
     if ((grounds[0].pos.x + grounds[0].width) < 0) {
         createGround();
         grounds.splice(0, 1);
+    }
+
+    //what ground is COMPLETELY RIGHT OF THE PLAYER?
+    for (let i = 0; i < grounds.length; i++) {
+        //check if ground is COMPLETELY RIGHT (so left and right corners are right of the player)
+        if (grounds[i].pos.x > player_x) {
+            nextGround = grounds[i];
+            grounds[i].isNext = true;
+        }
     }
 }

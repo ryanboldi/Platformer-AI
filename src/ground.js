@@ -8,10 +8,13 @@ class Ground {
     constructor(x, y, w) {
         this.pos = createVector(x, y);//top left position
         this.width = w;
+
+        this.isNext = false;
     }
 
     Show() {
-        fill(50, 155, 0);//ground
+        if (this.isNext) fill(90, 100, 0);
+        else fill(50, 155, 0);//ground
         stroke(0);
         strokeWeight(1);
         rect(this.pos.x, this.pos.y, this.width, groundHeight);
