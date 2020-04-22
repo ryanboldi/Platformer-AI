@@ -73,15 +73,15 @@ class Player {
             //if we collided with any of the floors, but we arn't ontop of the floor, its a death.
             for (let i = 0; i < grounds.length; i++) {
                 if (collideRectRect(this.pos.x - this.r, this.pos.y - (2 * this.r), this.r * 2, this.r * 4, grounds[i].pos.x, grounds[i].pos.y, grounds[i].width, groundHeight)) {
-                    if (((this.pos.x + this.r) < (grounds[i].pos.x)) || ((this.pos.x - this.r) > (grounds[i].pos.x + grounds[i].width))) {
+                    if (((this.pos.x + this.r) <= (grounds[i].pos.x)) || ((this.pos.x - this.r) > (grounds[i].pos.x + grounds[i].width))) {
                         this.dead = true;
                         console.log("DIE");
                     }
                 }
             }
-            
 
-            if (this.pos.y > HEIGHT){
+
+            if (this.pos.y > HEIGHT) {
                 this.dead = true;
                 console.log("DIE");
             }
@@ -114,5 +114,9 @@ class Player {
                 }
             }
         }
+    }
+
+    Think() {
+        //update vision
     }
 }
