@@ -11,6 +11,8 @@ class Player {
 
         this.onFloor = false;
 
+        this.sight = [];
+
         if (genome) {
             this.brain = genome;
         } else {
@@ -109,7 +111,7 @@ class Player {
     Move() {
         if (this.dead == false) {
             if (this.onFloor) {
-                if (keyIsPressed && keyCode == UP_ARROW) {
+                if ((this.brain.feedforward(this.sight)) > 0.5) {
                     this.vel.y -= jumpStrength;
                 }
             }
@@ -118,5 +120,24 @@ class Player {
 
     Think() {
         //update vision
+        //distance to next block
+        let dist1 = Math.abs(nextGround.pos.x - player_x);
+        let dist2 = Math.abs(this.pos.y - nextGround.pos.y);
+        let dist3 = Math.abs(this.pos.y - currGround.pos.y);
+        let dist4 = Math.abs(nextGround.pos.y - currGround.pos.y);
+
+        let _dist1 = map(dist1, 0, WIDTH, 0, 1);
+        let _dist2 = map(dist2, 0, HEIGHT, 0, 1);
+        let _dist3 = map(dist3, 0, HEIGHT, 0, 1);
+        let _dist4 = map(dist4, 0, WIDTH / 2, 0, 1);
+
+        this.sight = [_dist1, _dist2, dist3, _dist4]
+    }
+
+    UpdateFitness() {
+        if (this.dead == false) {
+            this.fitness = frameCount();
+        }
+        this.brain.fitness = this.fitness;
     }
 }
