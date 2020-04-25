@@ -1,6 +1,8 @@
 let WIDTH = HEIGHT = 800;
 const gravity = 0.5; //downward acceleration
 
+let generation = 0;
+
 //PLAYER SETTINGS
 const player_x = 50;
 const player_y = HEIGHT - 400;
@@ -8,18 +10,18 @@ const player_r = 20;
 
 const jumpStrength = 70;
 
+const popSize = population;
 
 //ground settings
 const groundSpeed = 10; //(x speed);
 const groundHeight = 50; //how tall each platform should be
 const groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
-const groundGapY = 400; //MAX VERTICAL GAP BETWEEN PLATFORMS
+const groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
 const groundWidthMin = 200;
 const groundWidthMax = 500;
 
 let nextGround; //STORES THE NEXT GROUND THAT THE PLAYER WILL BE ON
-
-let p;
+let currGround; //STORES CURRENT GROUND HE'S ON
 
 //array of ground pieces
 let grounds = [];
@@ -27,14 +29,28 @@ let grounds = [];
 //neat
 let best_fitness = 1;
 
+let pop; //population of brains of the creatures
+let players = []; //population of players
+
 function setup() {
+    console.error();
     createCanvas(WIDTH, HEIGHT);
     background(230);
 
-    p = new Player();
+    let popTemp = [];
 
-    let nextGround = new Ground(0, 600, WIDTH * 2)
-    grounds.push(nextGround);//START PLATFORM
+    for (let i = 0; i < popSize; i++) {
+        console.log(i);
+        let p = new Player();
+        let b = p.brain;
+        players.push(p);
+        popTemp.push(b);
+    }
+
+    pop = new Population(popTemp);
+
+    currGround = new Ground(0, 600, WIDTH * 2);
+    grounds.push(currGround);//START PLATFORM
     for (let i = 0; i < 10; i++) {
         createGround(); //we want about 10 grounds as a start
     }
@@ -42,15 +58,26 @@ function setup() {
 
 function draw() {
     background(230);
-    p.Show();
-    p.Update();
-    //p.Move();
+    checkGround();
+
+    if (checkDead) {
+        nextGen();
+        console.log("NEW GENERATION");
+    }
+
+    players.forEach(p => {
+        p.Show();
+        p.Update();
+        p.Think();
+        p.Move();
+        p.UpdateFitness();
+    });
 
     grounds.forEach(g => {
         g.Show();
         g.Update();
     });
-    checkGround();
+
 
     noStroke();
 }
@@ -89,6 +116,35 @@ function checkGround() {
         if (grounds[i].pos.x > player_x) {
             nextGround = grounds[i];
             grounds[i].isNext = true;
+            currGround = grounds[i - 1];
+            break;
         }
     }
+}
+
+function nextGen() {
+    generation++;
+    //makes new generatoin
+    let oldPlayers = players;
+    let newPop = pop.makeNext();
+    let newPlayers = [];
+
+    //make new population from this brain array;
+    for (let i = 0; i < newPop.genomes.length; i++) {
+        newPlayers.push(new Player(newPop.genomes[i]));
+    }
+
+    players = newPlayers;
+    pop = newPop;
+}
+
+function checkDead() {
+    //check if all players are dead
+    let allDead = true;
+    for (let i = 0; i < players.length; i++) {
+        if (player[i].dead == false) {
+            allDead = false;
+        }
+    }
+    return allDead
 }

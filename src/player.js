@@ -18,7 +18,6 @@ class Player {
         } else {
             this.brain = new Genome(4, 1);
         }
-
     }
 
     //draw the player to canvas
