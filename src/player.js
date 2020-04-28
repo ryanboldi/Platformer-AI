@@ -81,7 +81,6 @@ class Player {
                 }
             }
 
-
             if (this.pos.y > HEIGHT) {
                 this.dead = true;
                 console.log("DIE");
@@ -135,7 +134,7 @@ class Player {
 
     UpdateFitness() {
         if (this.dead == false) {
-            this.fitness = frameCount;
+            this.fitness = scoreCount;
         }
         this.brain.fitness = this.fitness;
     }
