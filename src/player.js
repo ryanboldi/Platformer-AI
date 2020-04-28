@@ -135,7 +135,7 @@ class Player {
 
     UpdateFitness() {
         if (this.dead == false) {
-            this.fitness = frameCount();
+            this.fitness = frameCount;
         }
         this.brain.fitness = this.fitness;
     }
