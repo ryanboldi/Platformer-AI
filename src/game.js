@@ -33,19 +33,20 @@ let pop; //population of brains of the creatures
 let players = []; //population of players
 
 function setup() {
-    console.error();
     createCanvas(WIDTH, HEIGHT);
     background(230);
 
     let popTemp = [];
 
     for (let i = 0; i < popSize; i++) {
-        console.log(i);
-        let p = new Player();
-        let b = p.brain;
+        let b = new Genome(4, 1);
+        let p = new Player(b);
+
         players.push(p);
         popTemp.push(b);
     }
+
+    console.log(popTemp);
 
     pop = new Population(popTemp);
 
@@ -60,7 +61,7 @@ function draw() {
     background(230);
     checkGround();
 
-    if (checkDead) {
+    if (checkDead()) {
         nextGen();
         console.log("NEW GENERATION");
     }
@@ -123,26 +124,36 @@ function checkGround() {
 }
 
 function nextGen() {
-    generation++;
+    console.log("Nice");
+    console.log(pop);
+    console.log(pop.makeNext);
+    generation += 1;
     //makes new generatoin
-    let oldPlayers = players;
-    let newPop = pop.makeNext();
+    pop.makeNext();
     let newPlayers = [];
 
     //make new population from this brain array;
-    for (let i = 0; i < newPop.genomes.length; i++) {
-        newPlayers.push(new Player(newPop.genomes[i]));
+    for (let i = 0; i < pop.genomes.length; i++) {
+        newPlayers.push(new Player(pop.genomes[i]));
     }
 
     players = newPlayers;
     pop = newPop;
+
+
+    this.ground = [];
+    currGround = new Ground(0, 600, WIDTH * 2);
+    grounds.push(currGround);//START PLATFORM
+    for (let i = 0; i < 10; i++) {
+        createGround(); //we want about 10 grounds as a start
+    }
 }
 
 function checkDead() {
     //check if all players are dead
     let allDead = true;
     for (let i = 0; i < players.length; i++) {
-        if (player[i].dead == false) {
+        if (players[i].dead == false) {
             allDead = false;
         }
     }
