@@ -32,6 +32,8 @@ let best_fitness = 1;
 let pop; //population of brains of the creatures
 let players = []; //population of players
 
+let scoreCount = 0;
+
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     background(230);
@@ -58,6 +60,7 @@ function setup() {
 }
 
 function draw() {
+    scoreCount++; // count of frames for score
     background(230);
     checkGround();
 
@@ -117,16 +120,15 @@ function checkGround() {
         if (grounds[i].pos.x > player_x) {
             nextGround = grounds[i];
             grounds[i].isNext = true;
-            currGround = grounds[i - 1];
             break;
+        } else if (grounds[i].pos.x < player_x && ((grounds[i].pos.x + grounds[i].width) > player_x)) {
+            currGround = grounds[i];
         }
     }
 }
 
 function nextGen() {
-    console.log("Nice");
-    console.log(pop);
-    console.log(pop.makeNext);
+    scoreCount = 0;
     generation += 1;
     //makes new generatoin
     pop.makeNext();
@@ -138,10 +140,8 @@ function nextGen() {
     }
 
     players = newPlayers;
-    pop = newPop;
 
-
-    this.ground = [];
+    grounds = [];
     currGround = new Ground(0, 600, WIDTH * 2);
     grounds.push(currGround);//START PLATFORM
     for (let i = 0; i < 10; i++) {
