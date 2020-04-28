@@ -3,3 +3,6 @@
 
 ### Initial design 
 ![Initial design](assets/Brainstorm.png)
+
+### result after a few generations of training
+![Winning Player](Winning.gif)
