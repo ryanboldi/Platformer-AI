@@ -1,5 +1,5 @@
 let WIDTH = HEIGHT = 800;
-const gravity = 0.5; //downward acceleration
+let gravity = 0.5; //downward acceleration
 
 let generation = 0;
 
@@ -10,13 +10,13 @@ const player_r = 20;
 
 const jumpStrength = 70;
 
-const popSize = population;
+let popSize = population;
 
 //ground settings
-const groundSpeed = 10; //(x speed);
+let groundSpeed = 10; //(x speed);
 const groundHeight = 50; //how tall each platform should be
 const groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
-const groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
+let groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
 const groundWidthMin = 200;
 const groundWidthMax = 500;
 
@@ -34,32 +34,74 @@ let players = []; //population of players
 
 let scoreCount = 0;
 
+// BUTTONS AND SLIDERS
+let ApplyButton;
+let groundSpeedSlider;
+let groundSpeedText;
+let popSizeSlider;
+let popSizeText;
+let gravitySlider;
+let gravityText;
+let variationSlider;
+let variationText;
+
+
+
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     background(230);
 
-    let popTemp = [];
+    //------------------------------------------------------------
+    ApplyButton = createButton("Reset & Apply Changes");
+    ApplyButton.mousePressed(ApplyChanges);
+    ApplyButton.position(WIDTH + 50, 400);
 
-    for (let i = 0; i < popSize; i++) {
-        let b = new Genome(4, 1);
-        let p = new Player(b);
+    groundSpeedSlider = createSlider(1, 20, groundSpeed);
+    groundSpeedSlider.position(WIDTH + 50, 50);
 
-        players.push(p);
-        popTemp.push(b);
-    }
+    groundSpeedText = createP("Speed");
+    groundSpeedText.position(groundSpeedSlider.x + 150, groundSpeedSlider.y - 15);
 
-    console.log(popTemp);
+    popSizeSlider = createSlider(1, 200, popSize);
+    popSizeSlider.position(WIDTH + 50, groundSpeedText.y + 40);
 
-    pop = new Population(popTemp);
+    popSizeText = createP("Population");
+    popSizeText.position(popSizeSlider.x + 150, popSizeSlider.y - 15);
 
-    currGround = new Ground(0, 600, WIDTH * 2);
-    grounds.push(currGround);//START PLATFORM
-    for (let i = 0; i < 10; i++) {
-        createGround(); //we want about 10 grounds as a start
-    }
+    gravitySlider = createSlider(0, 10, gravity * 10);
+    gravitySlider.position(WIDTH + 50, popSizeText.y + 40);
+
+    gravityText = createP("Gravity");
+    gravityText.position(gravitySlider.x + 150, gravitySlider.y - 15);
+
+    variationSlider = createSlider(0, HEIGHT / 2, groundGapY);
+    variationSlider.position(WIDTH + 50, gravityText.y + 40);
+
+    variationText = createP("Ground Height Variation");
+    variationText.position(variationSlider.x + 150, variationSlider.y - 15);
+
+    ApplyChanges();
 }
 
 function draw() {
+    //UPDATE TEXT ON SLIDERS
+    groundSpeedText.html(`Speed: ${groundSpeedSlider.value()}`);
+    popSizeText.html(`Population: ${popSizeSlider.value()}`);
+    gravityText.html(`Gravity: ${gravitySlider.value()}`);
+    variationText.html(`Ground Height Variation: ${variationSlider.value()}`)
+
+
+
+
+
+
+
+
+
+
+
+
+
     scoreCount++; // count of frames for score
     background(230);
     checkGround();
@@ -158,4 +200,37 @@ function checkDead() {
         }
     }
     return allDead
+}
+
+function ApplyChanges() {
+    grounds = [];
+
+    popSize = popSizeSlider.value();
+    groundSpeed = groundSpeedSlider.value();
+    gravity = gravitySlider.value() / 10;
+    groundGapY = variationSlider.value();
+
+
+
+
+
+    let popTemp = [];
+
+    for (let i = 0; i < popSize; i++) {
+        let b = new Genome(4, 1);
+        let p = new Player(b);
+
+        players.push(p);
+        popTemp.push(b);
+    }
+
+    console.log(popTemp);
+
+    pop = new Population(popTemp);
+
+    currGround = new Ground(0, 600, WIDTH * 2);
+    grounds.push(currGround);//START PLATFORM
+    for (let i = 0; i < 10; i++) {
+        createGround(); //we want about 10 grounds as a start
+    }
 }
