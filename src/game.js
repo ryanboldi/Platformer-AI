@@ -13,7 +13,7 @@ const jumpStrength = 70;
 let popSize = population;
 
 //ground settings
-let groundSpeed = 10; //(x speed);
+let groundSpeed = 12; //(x speed);
 const groundHeight = 50; //how tall each platform should be
 const groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
 let groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
