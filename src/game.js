@@ -102,13 +102,6 @@ function draw() {
 
 
 
-
-
-
-
-
-
-
     scoreCount++; // count of frames for score
     background(230);
     checkGround();
@@ -219,10 +212,6 @@ function ApplyChanges() {
     gravity = gravitySlider.value() / 10;
     groundGapY = variationSlider.value();
     groundGapX = gapSlider.value();
-
-
-
-
 
     let popTemp = [];
 
