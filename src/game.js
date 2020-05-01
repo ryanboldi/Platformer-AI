@@ -10,12 +10,12 @@ const player_r = 20;
 
 const jumpStrength = 70;
 
-let popSize = population;
+let popSize = 100;
 
 //ground settings
 let groundSpeed = 10; //(x speed);
 const groundHeight = 50; //how tall each platform should be
-const groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
+let groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
 let groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
 const groundWidthMin = 150;
 const groundWidthMax = 400;
@@ -44,6 +44,9 @@ let gravitySlider;
 let gravityText;
 let variationSlider;
 let variationText;
+let gapSlider;
+let gapText;
+
 
 
 
@@ -80,6 +83,12 @@ function setup() {
     variationText = createP("Ground Height Variation");
     variationText.position(variationSlider.x + 150, variationSlider.y - 15);
 
+    gapSlider = createSlider(0, 300, groundGapX);
+    gapSlider.position(WIDTH + 50, variationText.y + 40);
+
+    gapText = createP("Ground Gap");
+    gapText.position(gapSlider.x + 150, gapSlider.y - 15);
+
     ApplyChanges();
 }
 
@@ -88,10 +97,8 @@ function draw() {
     groundSpeedText.html(`Speed: ${groundSpeedSlider.value()}`);
     popSizeText.html(`Population: ${popSizeSlider.value()}`);
     gravityText.html(`Gravity: ${gravitySlider.value()}`);
-    variationText.html(`Ground Height Variation: ${variationSlider.value()}`)
-
-
-
+    variationText.html(`Ground Height Variation: ${variationSlider.value()}`);
+    gapText.html(`Ground Gap: ${gapSlider.value()}`);
 
 
 
@@ -210,6 +217,7 @@ function ApplyChanges() {
     groundSpeed = groundSpeedSlider.value();
     gravity = gravitySlider.value() / 10;
     groundGapY = variationSlider.value();
+    groundGapX = gapSlider.value();
 
 
 
