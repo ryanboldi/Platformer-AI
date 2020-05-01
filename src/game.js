@@ -212,6 +212,7 @@ function checkDead() {
 
 function ApplyChanges() {
     grounds = [];
+    players = [];
 
     popSize = popSizeSlider.value();
     groundSpeed = groundSpeedSlider.value();
@@ -233,7 +234,7 @@ function ApplyChanges() {
         popTemp.push(b);
     }
 
-    console.log(popTemp);
+    //console.log(popTemp);
 
     pop = new Population(popTemp);
 
