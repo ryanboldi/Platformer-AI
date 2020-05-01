@@ -13,12 +13,12 @@ const jumpStrength = 70;
 let popSize = population;
 
 //ground settings
-let groundSpeed = 12; //(x speed);
+let groundSpeed = 10; //(x speed);
 const groundHeight = 50; //how tall each platform should be
 const groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
 let groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
-const groundWidthMin = 200;
-const groundWidthMax = 500;
+const groundWidthMin = 150;
+const groundWidthMax = 400;
 
 let nextGround; //STORES THE NEXT GROUND THAT THE PLAYER WILL BE ON
 let currGround; //STORES CURRENT GROUND HE'S ON
@@ -107,8 +107,9 @@ function draw() {
     checkGround();
 
     if (checkDead()) {
+        console.log(pop.averageFitness)
         nextGen();
-        console.log("NEW GENERATION");
+        //console.log("NEW GENERATION");
     }
 
     players.forEach(p => {
@@ -217,7 +218,7 @@ function ApplyChanges() {
     let popTemp = [];
 
     for (let i = 0; i < popSize; i++) {
-        let b = new Genome(4, 1);
+        let b = new Genome(5, 1);
         let p = new Player(b);
 
         players.push(p);

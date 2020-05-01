@@ -16,7 +16,7 @@ class Player {
         if (genome) {
             this.brain = genome;
         } else {
-            this.brain = new Genome(4, 1);
+            this.brain = new Genome(5, 1);
         }
     }
 
@@ -76,14 +76,14 @@ class Player {
                 if (collideRectRect(this.pos.x - this.r, this.pos.y - (2 * this.r), this.r * 2, this.r * 4, grounds[i].pos.x, grounds[i].pos.y, grounds[i].width, groundHeight)) {
                     if (((this.pos.x + this.r) <= (grounds[i].pos.x)) || ((this.pos.x - this.r) > (grounds[i].pos.x + grounds[i].width))) {
                         this.dead = true;
-                        console.log("DIE");
+                        //console.log("DIE");
                     }
                 }
             }
 
             if (this.pos.y > HEIGHT) {
                 this.dead = true;
-                console.log("DIE");
+                //console.log("DIE");
             }
 
             let onFloor = false;
@@ -123,13 +123,15 @@ class Player {
         let dist2 = Math.abs(this.pos.y - nextGround.pos.y);
         let dist3 = Math.abs(this.pos.y - currGround.pos.y);
         let dist4 = Math.abs(nextGround.pos.y - currGround.pos.y);
+        let dist5 = Math.abs((currGround.pos.x + currGround.width) - this.pos.x);
 
-        let _dist1 = map(dist1, 0, WIDTH, 0, 1);
-        let _dist2 = map(dist2, 0, HEIGHT, 0, 1);
-        let _dist3 = map(dist3, 0, HEIGHT, 0, 1);
-        let _dist4 = map(dist4, 0, WIDTH / 2, 0, 1);
+        //let _dist1 = map(dist1, 0, WIDTH, 0, 1);
+        //let _dist2 = map(dist2, 0, HEIGHT, 0, 1);
+        //let _dist3 = map(dist3, 0, HEIGHT, 0, 1);
+        //let _dist4 = map(dist4, 0, WIDTH / 2, 0, 1);
+        //let _dist5 = map(dist5, 0, )
 
-        this.sight = [_dist1, _dist2, dist3, _dist4]
+        this.sight = [dist1, dist2, dist3, dist4, dist5]
     }
 
     UpdateFitness() {
