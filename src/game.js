@@ -15,9 +15,9 @@ let popSize = 100;
 //ground settings
 let groundSpeed = 10; //(x speed);
 const groundHeight = 50; //how tall each platform should be
-let groundGapX = 170; //MAX X GAP BETWEEN PLATFORMS
-let groundGapY = 300; //MAX VERTICAL GAP BETWEEN PLATFORMS
-const groundWidthMin = 150;
+let groundGapX = 150; //MAX X GAP BETWEEN PLATFORMS
+let groundGapY = 270; //MAX VERTICAL GAP BETWEEN PLATFORMS
+const groundWidthMin = 100;
 const groundWidthMax = 400;
 
 let nextGround; //STORES THE NEXT GROUND THAT THE PLAYER WILL BE ON
